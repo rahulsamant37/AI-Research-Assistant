@@ -6,6 +6,100 @@
 
 This is an AI based research assistant with a semantic document search system for smart document storage and retrieval using natural language queries. [**Ollama**](https://ollama.com/) is integrated into the assistant to summarise, and generate sentiment analysis, key points, related topics for provided content. [Streamlit](https://streamlit.io/) is used to provide a minimalistic user interface.
 
+## System Architecture
+```mermaid
+flowchart TD
+    subgraph Frontend["User Interface Layer"]
+        UI[Streamlit Interface]
+        Upload[Document Upload]
+        Search[Natural Language Search]
+        Analysis[Document Analysis]
+        style Frontend fill:#f5f5f5,stroke:#333,stroke-width:2px
+    end
+
+    subgraph ML["Machine Learning Layer"]
+        ST[Sentence Transformer<br/>all-MiniLM-L6-v2]
+        OL[Ollama LLM<br/>Document Analysis]
+        style ML fill:#e8f4f8,stroke:#333,stroke-width:2px
+    end
+
+    subgraph Core["Processing Layer"]
+        DP[Document Processor]
+        EP[Embedding Generator<br/>384-dimensional]
+        SP[Search Engine<br/>Cosine Similarity]
+        AP[Analysis Engine]
+        style Core fill:#f0f9ef,stroke:#333,stroke-width:2px
+    end
+
+    subgraph DB["Database Layer"]
+        PG[(TimescaleDB/PostgreSQL)]
+        subgraph Extensions["Database Extensions"]
+            PV[pgvector<br/>Vector Operations]
+            PA[pgai<br/>AI Features]
+            IV[IVFFlat Index<br/>Search Optimization]
+            JB[JSONB<br/>Metadata Storage]
+            style Extensions fill:#fff3e6,stroke:#333,stroke-width:2px
+        end
+        style DB fill:#fcf2f2,stroke:#333,stroke-width:2px
+    end
+
+    %% Connections
+    UI --> Upload & Search & Analysis
+    Upload --> DP
+    Search --> SP
+    Analysis --> AP
+    
+    DP --> EP
+    EP --> ST --> EP
+    SP --> ST
+    AP --> OL --> AP
+    
+    EP & SP & AP --> PG
+    
+    PV & PA & IV & JB -.-> PG
+
+classDef primary fill:#4a90e2,stroke:#357abd,stroke-width:2px,color:white
+classDef secondary fill:#57b894,stroke:#45937a,stroke-width:2px,color:white
+classDef ai fill:#f39c12,stroke:#d68910,stroke-width:2px,color:white
+classDef db fill:#e74c3c,stroke:#c0392b,stroke-width:2px,color:white
+
+class UI,Upload,Search,Analysis primary
+class DP,EP,SP,AP secondary
+class ST,OL ai
+class PG,PV,PA,IV,JB db
+
+```
+
+### System Components
+
+#### 1. User Interface Layer
+- **Streamlit Interface**: User-friendly web interface for all operations
+- **Document Upload**: Supports single files and batch CSV uploads
+- **Natural Language Search**: Semantic search interface
+- **Document Analysis**: AI-powered content analysis tools
+
+#### 2. Machine Learning Layer
+- **Sentence Transformer**: Generates 384-dimensional embeddings using all-MiniLM-L6-v2 model
+- **Ollama LLM**: Performs advanced document analysis
+  - Document summarization
+  - Sentiment analysis
+  - Key points extraction
+  - Related topics generation
+
+#### 3. Processing Layer
+- **Document Processor**: Handles document parsing and preparation
+- **Embedding Generator**: Creates and manages vector embeddings
+- **Search Engine**: Implements cosine similarity search
+- **Analysis Engine**: Coordinates AI-powered document analysis
+
+#### 4. Database Layer
+- **TimescaleDB/PostgreSQL**: Primary database system
+- **Database Extensions**:
+  - **pgvector**: Vector similarity operations
+  - **pgai**: Database AI capabilities
+  - **IVFFlat Index**: Search optimization
+  - **JSONB**: Flexible metadata storage
+
 You can use natural language to search data stored in the PostgreSQL database. Uses **pgvector** for vector similarity search, [**pgai**](https://github.com/timescale/pgai) through **TimescaleDB** for search AI features. It is very helpful in cases where you have to manage and search through large collections of documents based on meaning rather than just keywords.
 
 **Key Features:**
