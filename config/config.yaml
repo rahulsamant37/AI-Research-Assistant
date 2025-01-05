@@ -1,0 +1,9 @@
+artifacts_root: artifacts
+
+data_ingestion:
+  root_dir: artifacts/data_ingestion
+  FOLDER_ID_NP: '1_xFmMlrNDR0wzzPsv6wXXdGz0eX6vaYb'
+  FOLDER_ID_P: ['1RifJJBjm5tA8E20808RjvkIAiWnFbceb', '1JVzabziJf4d2drCTXFssFr_wZMnjr8oT', '1sJKv0o5ySrigZewU_wtTxysx9j0kO_nV', '1ZgkbpvhoNKUuH0b4uCv30lyWg3-5ijTC', '13eDgt0YghQU2qlogGrTrXJzfD0h0F2Iw']
+  DOWNLOAD_PATH_NP: 'artifacts/data_ingestion/Non-Publishable'
+  DOWNLOAD_PATH_P: 'artifacts/data_ingestion/Publishable'
+  CREDENTIALS_FILE: 'credentials.json'
