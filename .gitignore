@@ -4,3 +4,5 @@ myenv
 __pycache__
 artifacts
 .pytest_cache
+credentials.json
+logs
