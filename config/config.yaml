@@ -7,3 +7,7 @@ data_ingestion:
   DOWNLOAD_PATH_NP: 'artifacts/data_ingestion/Non-Publishable'
   DOWNLOAD_PATH_P: 'artifacts/data_ingestion/Publishable'
   CREDENTIALS_FILE: 'credentials.json'
+
+data_transformation:
+  root_dir: artifacts/data_transformation
+  data_path: artifacts/data_ingestion/IMDB.csv
